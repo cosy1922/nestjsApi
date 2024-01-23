@@ -15,7 +15,7 @@ export class FcmController {
 
   @Get('pushAllMobile')
   async pushAllMobile(): Promise<any> {
-    return await this.fcmService.pushAllMobile();
+    return await this.fcmService.pushAllMobile('message input');
   }
 
   @Get('pushUsersMobile')

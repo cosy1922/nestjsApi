@@ -38,12 +38,27 @@ export class DaejeoController {
       const count = yourFunction(i);
 
       // 12/27 => 01/31
+      // 빈자리 체크
       const tt: any = await this.daejeoService.getSeatCheckPushMobile(date);
+      // 결과값 빈자리 있는지 확인
       const chk = tt.data?.null_seat || 0;
       console.log('true냐 false냐' + count + ' : ' + chk);
       //결과값이 true 일때 종료
       if (count == true || chk > 0) {
         //알람 보내기
+        if (chk > 0) {
+          //성공 알람
+          this.daejeoService.getMobilePush(
+            'token',
+            '[' + date + ']빈자리 발생 : ' + chk,
+          );
+        } else {
+          //실패 알람
+          this.daejeoService.getMobilePush(
+            'token',
+            '[' + date + ']빈자리 없음 ❌',
+          );
+        }
         console.log('Function returned true. Stopping interval.');
         clearInterval(intervalId); // Interval 종료
       }
@@ -55,7 +70,7 @@ export class DaejeoController {
 
   @Get('dateView')
   @ApiOperation({
-    summary: '한달간 남은 좌석 확인하기',
+    summary: '한달간 남은 좌석 (금토일) 확인하기',
     description: '금일부터 30일 이후까지 남은 자리 확인 하기',
   })
   async getSeatCheckDateView(): Promise<object> {

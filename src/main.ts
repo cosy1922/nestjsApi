@@ -7,7 +7,7 @@ import admin, { ServiceAccount } from 'firebase-admin';
 import serviceAccount from '../firebase-adminsdk';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create(AppModule, { cors: true });
 
   console.log(serviceAccount);
 

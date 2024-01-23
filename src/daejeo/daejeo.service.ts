@@ -22,6 +22,11 @@ export class DaejeoService {
     return !isNaN(dateObject.getTime());
   };
 
+  async getMobilePush(token: string, message: string): Promise<void> {
+    console.log('push');
+    this.fcmService.pushAllMobile(message);
+  }
+
   //빈자리 체크하기
   async seatCheck(date: string): Promise<object> {
     let result: object = {};
@@ -193,6 +198,7 @@ export class DaejeoService {
     const currentDate = new Date();
 
     const resultAll: object = {};
+    const header = [];
 
     //금토일 확인하기
     const isWeekend = (date) => {
@@ -213,8 +219,11 @@ export class DaejeoService {
       //금토일 일 경우에만
       if (isWeekend(new Date(formattedDate))) {
         resultAll[formattedDate] = await this.seatCheck(formattedDate);
+        header.push(formattedDate);
       }
     }
+
+    resultAll['header'] = header;
 
     return resultAll;
   }

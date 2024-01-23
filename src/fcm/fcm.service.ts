@@ -22,11 +22,11 @@ export class FcmService {
     }
   }
 
-  async pushAllMobile(): Promise<any> {
+  async pushAllMobile(message: string): Promise<any> {
     try {
       const result = await this.fcmRepository.find();
-      const title = '테스트 발송3';
-      const body = '알람 발생3';
+      const title = '현 Camping 자리';
+      const body = message;
       const tokens = [];
 
       result.forEach((value) => {
