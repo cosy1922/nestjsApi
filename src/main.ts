@@ -5,9 +5,18 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import admin, { ServiceAccount } from 'firebase-admin';
 
 import serviceAccount from '../firebase-adminsdk';
+import { CorsOptions } from '@nestjs/common/interfaces/external/cors-options.interface';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, { cors: true });
+
+  const corsOptions: CorsOptions = {
+    origin: ['https://donghyeon.net', 'https://www.donghyeon.net'],
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    credentials: true,
+  };
+
+  app.enableCors(corsOptions);
 
   console.log(serviceAccount);
 
